@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="{% url 'test_final' %}" method="POST">  <!--Прописываем имя определенное в urls -->
+    {% csrf_token %}
+    <label>Начальная точка</label>
+    <input name="first_date">
+    <label>Конечная точка</label>
+    <input name="last_date">
+    <button type="submit">Получить выгрузку</button>
+</form>
+
+</body>
+</html>
