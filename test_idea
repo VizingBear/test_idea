@@ -1,0 +1,81 @@
+###Для перебора значений в левом меню
+
+Без импорта:
+sorted(list_to_be_sorted, key=lambda d: d['name'])
+
+С импортом:
+from operator import itemgetter
+sorted(list_to_be_sorted, key=itemgetter('name'))
+
+
+
+###Для работы с экселем
+
+Если нужно захардкодить:
+
+import xlwt
+
+
+myWorkbook = xlwt.Workbook(encoding='utf-8')
+myWorksheet = myWorkbook.add_sheet('sheet1')
+
+# Установkbdftv ширину столбца, cols_num - количество столбцов,
+cols_num = 10
+
+for c in range(cols_num):  # 10 - длина cols_num
+    myWorksheet.col(c).width = 256 * 30
+
+myWorksheet.row(0).height_mismatch = True  # Установите значение True, измените высоту строки, чтобы вступили в силу
+myWorksheet.row(0).height = 500  # Установить высоту строки
+
+
+def body_style(pattern=None):
+
+    style = xlwt.XFStyle()  # Create Style
+
+    # Установить стиль шрифта
+    font = xlwt.Font()  # Create Font
+    font.name = "Arial"  # Песня Ti
+    font.height = 20 * 12  # размер шрифта
+
+    # Установить стиль ячейки
+    style.alignment.vert = style.alignment.VERT_BOTTOM  # Вертикально по центру
+    style.alignment.horz = style.alignment.HORZ_CENTER  # Центрировать по горизонтали
+    style.alignment.wrap = style.alignment.WRAP_AT_RIGHT  # Сворачивать
+
+
+
+    # Установить стиль границы
+    borders = xlwt.Borders()  # Pattern Borders
+
+    borders.right = borders.NO_LINE  # По умолчанию границы нет, NO_LINE
+
+
+    borders.left_colour = 0x90  # Раскраска границы
+
+
+    style.font = font  # Назначение стиля
+    style.borders = borders
+    return style
+
+cell_styles = body_style()
+
+headers = ['ученик', 'Язык', 'Английский язык', 'математика']
+
+for cols, header in enumerate(headers):
+    myWorksheet.write(0, cols, header, style=cell_styles)
+
+myWorkbook.save("Excel.xls")
+
+Вот тут сеханизм определения длины при записи
+
+for row_index in range(0,10):
+   for column_index in range(0,10) :
+      cwidth = myWorksheet.col(column_index).width
+      if (len(headers)*367) > cwidth:
+          myWorksheet.col(column_index).width = (len(headers)*367) #(Modify column width to match biggest data in that column)
+
+      myWorksheet.write(row_index,column_index,headers,style=cell_styles)
+
+myWorkbook.save("Excel.xls")
+
