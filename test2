@@ -1,0 +1,44 @@
+Изменил в admin
+
+
+        return [
+            path(f'{ReportsConfig.name}/{feature_value.admin_url}', self.admin_view(self.redirect_view_wrapper(feature_value_report)))
+        ] + urls
+
+    # TODO: Will be reusable def
+    def each_context(self,request):
+        context = dict(
+            self.each_context(request),
+            app_list=self.get_app_list(request, ReportsConfig.name)
+        )
+        return [request, context]
+
+    def redirect_view_wrapper(self, view_name):
+        def redirect_view(request):
+            a = self.each_context(request)
+            return view_name(a[0], a[1])
+
+
+
+admin_site = MyTerritoryAdminSite(name="myadmin")
+
+
+
+
+Во view
+
+    try:
+        request.method == 'POST' or request.method == 'GET'
+    except:
+        return render(request, 'admin/404.html', status=404)
+
+
+И         print(len(municipality)) в экселе
+
+
+
+Попроюовать это в форме         
+
+if not(not start_date or not end_date):
+            if start_date > end_date:
+                self.add_error('date_start', 'Дата начала не может быть больше, чем дата завершения')
